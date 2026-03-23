@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Maître des Trois Voies</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --noir:#0a0303;
+  --brun:#1a0808;
+  --bord:#7a1515;
+  --bord2:#a01e1e;
+  --or:#c9a84c;
+  --or2:#e8c96a;
+  --creme:#f5e6c8;
+  --creme2:#ede0b8;
+  --gris:#9a8878;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes runeGlow{0%,100%{opacity:.1}50%{opacity:.2}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes borderPulse{0%,100%{border-color:rgba(201,168,76,.4)}50%{border-color:rgba(201,168,76,.8)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--noir);
+  color:var(--creme);
+  font-family:'EB Garamond',Georgia,serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%,rgba(122,21,21,.22) 0%,transparent 65%),
+    radial-gradient(ellipse 60% 40% at 50% 100%,rgba(122,21,21,.12) 0%,transparent 60%);
+  pointer-events:none;z-index:0;
+}
+.rune-bg{
+  position:fixed;inset:0;z-index:0;
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  grid-template-rows:repeat(10,1fr);
+  pointer-events:none;overflow:hidden;
+}
+.rune-bg span{
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(14px,2vw,24px);
+  color:var(--or);
+  animation:runeGlow 5s ease-in-out infinite;
+  animation-delay:calc(var(--d,0) * 1s);
+}
+.wrap{
+  position:relative;z-index:1;
+  max-width:500px;margin:0 auto;
+  padding:52px 22px 72px;
+}
+.avatar-wrap{
+  width:116px;height:116px;
+  border-radius:50%;
+  border:2px solid var(--or);
+  padding:3px;
+  margin:0 auto 22px;
+  animation:borderPulse 3.5s ease-in-out infinite;
+  position:relative;
+}
+.avatar-wrap::before{
+  content:'';
+  position:absolute;inset:-7px;
+  border-radius:50%;
+  border:1px solid rgba(201,168,76,.15);
+}
+.avatar-inner{
+  width:100%;height:100%;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--brun),#2d0a0a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:44px;color:var(--or);
+  overflow:hidden;
+}
+.avatar-inner img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  border-radius:50%;display:block;
+}
+.header{text-align:center;margin-bottom:26px;animation:fadeUp .7s ease both}
+.symbol{font-size:18px;color:var(--or);display:block;margin-bottom:10px;letter-spacing:.45em;opacity:.75}
+h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(18px,5vw,24px);
+  font-weight:600;letter-spacing:.07em;line-height:1.25;
+  margin-bottom:7px;
+  background:linear-gradient(90deg,var(--or),var(--or2),var(--or));
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmer 5s linear infinite;
+}
+.tagline{font-size:12px;color:var(--gris);letter-spacing:.22em;text-transform:uppercase;margin-bottom:4px}
+.location{font-size:12px;color:rgba(201,168,76,.42);letter-spacing:.08em;margin-top:5px}
+.ornament{
+  display:flex;align-items:center;gap:10px;
+  color:var(--or);font-size:11px;letter-spacing:.15em;
+  opacity:.45;margin:20px 0;
+}
+.ornament::before,.ornament::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,var(--or),transparent);
+}
+.bio{
+  background:rgba(26,8,8,.55);
+  border:1px solid rgba(201,168,76,.16);
+  border-radius:3px;
+  padding:18px 22px;
+  font-size:15px;line-height:1.9;
+  color:var(--creme2);font-style:italic;
+  text-align:center;
+  position:relative;
+  margin-bottom:26px;
+  animation:fadeUp .85s .12s ease both;
+}
+.bio::before,.bio::after{content:'✦';position:absolute;color:var(--or);font-size:9px;opacity:.38}
+.bio::before{top:9px;left:12px}
+.bio::after{bottom:9px;right:12px}
+.section-lbl{
+  font-family:'Cinzel',serif;
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--or);opacity:.58;
+  text-align:center;margin:26px 0 13px;
+}
+.services{display:flex;flex-direction:column;gap:10px;margin-bottom:26px}
+.scard{
+  background:rgba(18,5,5,.5);
+  border:1px solid rgba(201,168,76,.18);
+  border-radius:3px;
+  padding:14px 17px;
+  display:flex;align-items:flex-start;gap:14px;
+  transition:border-color .3s,background .3s,transform .22s;
+  position:relative;overflow:hidden;
+  animation:slideIn .6s ease both;
+}
+.scard:nth-child(1){animation-delay:.1s}
+.scard:nth-child(2){animation-delay:.2s}
+.scard:nth-child(3){animation-delay:.3s}
+.scard::after{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--bord),var(--or),var(--bord));
+  opacity:0;transition:opacity .3s;
+}
+.scard:hover{border-color:rgba(201,168,76,.42);background:rgba(32,8,8,.65);transform:translateX(4px)}
+.scard:hover::after{opacity:1}
+.scard-rune{font-size:24px;line-height:1;color:var(--or);opacity:.72;flex-shrink:0;margin-top:2px}
+.scard-body{flex:1}
+.scard-name{font-family:'Cinzel',serif;font-size:13px;font-weight:600;color:var(--or2);letter-spacing:.05em;margin-bottom:4px}
+.scard-desc{font-size:13px;color:var(--gris);line-height:1.6}
+.scard-mode{font-size:11px;color:rgba(201,168,76,.42);margin-top:5px;letter-spacing:.06em}
+.btns{display:flex;flex-direction:column;gap:11px;animation:fadeUp .8s .35s ease both}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 22px;border-radius:3px;
+  font-family:'Cinzel',serif;
+  font-size:13px;font-weight:600;letter-spacing:.1em;
+  text-decoration:none;
+  transition:all .25s;
+  position:relative;overflow:hidden;
+  cursor:pointer;border:none;
+}
+.btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
+  transform:translateX(-100%);transition:transform .5s;
+}
+.btn:hover::before{transform:translateX(100%)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--bord) 0%,#8a1010 50%,var(--bord) 100%);
+  color:var(--or2);
+  border:1px solid rgba(201,168,76,.32);
+}
+.btn-primary:hover{
+  background:linear-gradient(135deg,var(--bord2),#aa1515,var(--bord2));
+  border-color:rgba(201,168,76,.6);
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(122,21,21,.45);
+}
+.btn-secondary{
+  background:transparent;
+  color:var(--or);
+  border:1px solid rgba(201,168,76,.28);
+}
+.btn-secondary:hover{
+  background:rgba(201,168,76,.07);
+  border-color:rgba(201,168,76,.52);
+  transform:translateY(-2px);
+}
+.btn-icon{font-size:16px}
+.modes{display:flex;justify-content:center;gap:10px;margin:18px 0 0;flex-wrap:wrap}
+.mode-pill{
+  font-size:11px;letter-spacing:.08em;
+  color:rgba(201,168,76,.5);
+  border:1px solid rgba(201,168,76,.16);
+  border-radius:20px;padding:4px 13px;
+}
+.footer{text-align:center;margin-top:44px;animation:fadeUp .8s .55s ease both}
+.footer-runes{font-size:20px;letter-spacing:.5em;color:var(--or);opacity:.28;margin-bottom:10px}
+.footer-text{font-size:11px;color:rgba(201,168,76,.28);letter-spacing:.14em;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<div class="rune-bg" aria-hidden="true">
+  <span style="--d:0">ᚠ</span><span style="--d:.4">ᚢ</span><span style="--d:.8">ᚦ</span><span style="--d:1.2">ᚨ</span><span style="--d:1.6">ᚱ</span><span style="--d:2">ᚲ</span><span style="--d:2.4">ᚷ</span>
+  <span style="--d:.3">ᚹ</span><span style="--d:.7">ᚺ</span><span style="--d:1.1">ᚾ</span><span style="--d:1.5">ᛁ</span><span style="--d:1.9">ᛃ</span><span style="--d:2.3">ᛇ</span><span style="--d:2.7">ᛈ</span>
+  <span style="--d:.6">ᛉ</span><span style="--d:1">ᛊ</span><span style="--d:1.4">ᛏ</span><span style="--d:1.8">ᛒ</span><span style="--d:2.2">ᛖ</span><span style="--d:2.6">ᛗ</span><span style="--d:3">ᛚ</span>
+  <span style="--d:.9">ᛜ</span><span style="--d:1.3">ᛞ</span><span style="--d:1.7">ᛟ</span><span style="--d:2.1">ᚠ</span><span style="--d:2.5">ᚢ</span><span style="--d:2.9">ᚦ</span><span style="--d:3.3">ᚨ</span>
+  <span style="--d:.5">ᚱ</span><span style="--d:.9">ᚲ</span><span style="--d:1.3">ᚷ</span><span style="--d:1.7">ᚹ</span><span style="--d:2.1">ᚺ</span><span style="--d:2.5">ᚾ</span><span style="--d:2.9">ᛁ</span>
+  <span style="--d:.2">ᛃ</span><span style="--d:.6">ᛇ</span><span style="--d:1">ᛈ</span><span style="--d:1.4">ᛉ</span><span style="--d:1.8">ᛊ</span><span style="--d:2.2">ᛏ</span><span style="--d:2.6">ᛒ</span>
+  <span style="--d:.8">ᛖ</span><span style="--d:1.2">ᛗ</span><span style="--d:1.6">ᛚ</span><span style="--d:2">ᛜ</span><span style="--d:2.4">ᛞ</span><span style="--d:2.8">ᛟ</span><span style="--d:3.2">ᚠ</span>
+  <span style="--d:.1">ᚢ</span><span style="--d:.5">ᚦ</span><span style="--d:.9">ᚨ</span><span style="--d:1.3">ᚱ</span><span style="--d:1.7">ᚲ</span><span style="--d:2.1">ᚷ</span><span style="--d:2.5">ᚹ</span>
+  <span style="--d:.7">ᚺ</span><span style="--d:1.1">ᚾ</span><span style="--d:1.5">ᛁ</span><span style="--d:1.9">ᛃ</span><span style="--d:2.3">ᛇ</span><span style="--d:2.7">ᛈ</span><span style="--d:3.1">ᛉ</span>
+  <span style="--d:.4">ᛊ</span><span style="--d:.8">ᛏ</span><span style="--d:1.2">ᛒ</span><span style="--d:1.6">ᛖ</span><span style="--d:2">ᛗ</span><span style="--d:2.4">ᛚ</span><span style="--d:2.8">ᛜ</span>
+</div>
+
+<div class="wrap">
+
+  <div class="avatar-wrap">
+    <div class="avatar-inner">
+     <img src="avatar.jpg" alt="Le Maître des Trois Voies">
+    </div>
+  </div>
+
+  <header class="header">
+    <span class="symbol">ᚠ ᚢ ᚦ</span>
+    <h1>Le Maître des Trois Voies</h1>
+    <p class="tagline">Runes · Radiesthésie · Rêves</p>
+    <p class="location">✦ Petigny, Belgique ✦</p>
+  </header>
+
+  <div class="bio">
+    Depuis des années, je guide ceux qui cherchent à comprendre les messages que l'univers leur envoie — à travers les runes ancestrales, le pendule, et le langage secret des rêves.
+  </div>
+
+  <div class="ornament">✦ ✦ ✦</div>
+
+  <p class="section-lbl">Consultations</p>
+
+  <div class="services">
+
+    <div class="scard">
+      <div class="scard-rune">ᚠ</div>
+      <div class="scard-body">
+        <div class="scard-name">Tirage Runique</div>
+        <div class="scard-desc">Lecture personnalisée des runes Elder Futhark — orientation, blocages, chemin de vie. Tirage simple, croix de Thor ou Celtic Cross.</div>
+        <div class="scard-mode">Présentiel · Visioconférence</div>
+      </div>
+    </div>
+
+    <div class="scard">
+      <div class="scard-rune">ᛗ</div>
+      <div class="scard-body">
+        <div class="scard-name">Interprétation des Rêves</div>
+        <div class="scard-desc">Décodage des symboles oniriques selon les traditions nordiques et chamaniques. Rêves récurrents, messages des ancêtres, guidance nocturne.</div>
+        <div class="scard-mode">Présentiel · Visioconférence</div>
+      </div>
+    </div>
+
+    <div class="scard">
+      <div class="scard-rune">ᛟ</div>
+      <div class="scard-body">
+        <div class="scard-name">Radiesthésie — Pendule</div>
+        <div class="scard-desc">Détection et rééquilibrage énergétique par le pendule. Réponses précises, recherche d'informations subtiles, harmonisation des espaces.</div>
+        <div class="scard-mode">Présentiel · Visioconférence</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ornament">✦ ✦ ✦</div>
+
+  <p class="section-lbl">Prendre rendez-vous</p>
+
+  <div class="btns">
+
+    <a class="btn btn-primary" href="https://wa.me/32479996444?text=Bonjour%2C%20je%20souhaite%20prendre%20rendez-vous%20pour%20une%20consultation.">
+      <span class="btn-icon">📱</span>
+      WhatsApp — 0479 99 64 44
+    </a>
+
+    <a class="btn btn-secondary" href="mailto:lemaitredestroisvoies@gmail.com?subject=Demande%20de%20consultation&body=Bonjour%2C%0A%0AJe%20souhaite%20prendre%20rendez-vous%20pour%20une%20consultation.%0A%0ACordialement">
+      <span class="btn-icon">✉</span>
+      lemaitredestroisvoies@gmail.com
+    </a>
+
+  </div>
+
+  <div class="modes">
+    <span class="mode-pill">Présentiel</span>
+    <span class="mode-pill">Visioconférence</span>
+    <span class="mode-pill">Belgique &amp; International</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-runes">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ</div>
+    <p class="footer-text">© 2025 Le Maître des Trois Voies · Petigny, Belgique</p>
+  </div>
+
+</div>
+</body>
+</html>
